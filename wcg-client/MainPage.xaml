@@ -10,7 +10,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Compact">
-            <AppBarButton Icon="Edit" Label="RAKUGAKI"/>
+            <AppBarButton x:Name="rakugakiBtn"  Icon="Edit" Label="RAKUGAKI"/>
+            <AppBarButton x:Name="reloadBtn" Icon="Refresh" Label="Reload"/>
         </CommandBar>
     </Page.BottomAppBar>
 

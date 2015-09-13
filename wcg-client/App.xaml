@@ -9,6 +9,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="APIkeys.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <x:Double x:Key="defaultAccuracy">50.0</x:Double>
         </ResourceDictionary>
     </Application.Resources>
 
