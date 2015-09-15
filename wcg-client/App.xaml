@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="APIkeys.xaml" />
+                <ResourceDictionary Source="ApiParameters.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="defaultAccuracy">50.0</x:Double>

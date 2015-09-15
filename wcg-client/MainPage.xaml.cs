@@ -30,7 +30,7 @@ namespace wcg_client
         private Geolocator _geolocator;
 
         private Spot ownPlace;
-        private List<Spot> spots;
+        private List<Spot> spots = new List<Spot>();
 
         public MainPage()
         {
@@ -70,26 +70,34 @@ namespace wcg_client
             }
             _geolocator.ReportInterval = 60000;
             _geolocator.DesiredAccuracyInMeters = (uint)Math.Round((double)App.Current.Resources["defaultAccuracy"]);
-            Debug.WriteLine("acc: " + _geolocator.DesiredAccuracyInMeters.ToString());
 
             var pos = await _geolocator.GetGeopositionAsync();
             var lat = pos.Coordinate.Point.Position.Latitude;
             var lon = pos.Coordinate.Point.Position.Longitude;
-            _geolocator = null;
 
             Debug.WriteLine("coord: " + lat.ToString() + "," + lon.ToString());
             ownPlace = new Spot(mainMap, "", lat, lon);
 
             // HTTP リクエスト (Spotリスト取得)
-            //var httpClient = new HttpClient();
-            //var response = await httpClient.GetAsync((string)App.Current.Resources["WcgServiceUrl"]);
-            //Debug.WriteLine(response.ToString());
-            //var result = JsonConvert.DeserializeObject<spotApiResult>(json);
+            var URL = (string)App.Current.Resources["WcgServiceUrl"] + "spot/" + lat + "/" + lon + "/" + _geolocator.DesiredAccuracyInMeters.ToString();
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(URL);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(json.ToString());
+
+            var results = JsonConvert.DeserializeObject<List<spotApiResult>>(json);
+            foreach(var result in results)
+            {
+                Debug.WriteLine("Add " + result.name);
+                spots.Add(new Spot(mainMap, result.name, double.Parse(result.lat), double.Parse(result.lon) ));
+            }
+
 
             // リスト展開 (spotsに格納)
 
 
-            // TODO
+            _geolocator = null;
         }
 
     }
